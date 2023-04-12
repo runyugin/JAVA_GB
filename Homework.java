@@ -1,61 +1,61 @@
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.stream.Collectors;
-
-// Реализовать приложение, которое:
-// Принимает от пользователя и запоминает строки
-// Если пользователь ввел print, то выводим все предыдущие строки в обратном порядке
-// Если введено revert, то удаляем последнюю введеную строку
-// Если введено exit, то завершаем программу
-
-//     java
-//     c++
-//     python
-//     c#
-//     print
-//     < [c#, python, c++, java]
-//     revert
-//     print
-//     < [python, c++, java]
-//     exit
-
-
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Homework {
 
     public static void main(String[] args) {
-
-        start();     
-
+        System.out.println(isCorrectParentheses("()")); // true
+        System.out.println(isCorrectParentheses("(")); // false
+        System.out.println(isCorrectParentheses("())")); // false
+        System.out.println(isCorrectParentheses("((()))")); // true
+        System.out.println(isCorrectParentheses("()[]{}<>")); // true
+        System.out.println(isCorrectParentheses("([)]")); // false
+        System.out.println(isCorrectParentheses("][]")); // false
+        System.out.println("[]{<()[]<>>}"); // true
     }
+    
+    /**
+     * Дана последовательность скобочек. Проверить, что она является корректной.
+     */
+    static boolean isCorrectParentheses(String parentheses) {
+        // TODO: 07.04.2023 Вписать решение!
+        // Нужно завести маппинг скобочек либо ( -> ), либо ) -> ( и так для каждой пары
+        // Нужно использовать Deque.
+        // Открывающуюся скобку вносим в Deque (insertFirst)
+        // Если встретилась закрывающаяся скобка, то (Deque#pollFirst) и сравниваем ее с встретившейся
 
-    private static void start() {
 
-        List<String> list = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
+        Map<Character,Character> map = new HashMap();
+        map.put('{', '}');
+        map.put('(', ')');
+        map.put('[', ']');
+        map.put('<', '>');
+        
+
+        Deque<Character> eCharacters = new ArrayDeque<>();
+    
+        char[] parenthesesArray = parentheses.toCharArray();
+        if (parenthesesArray.length % 2 != 0) return false;
 
 
-        while (true) {     
-            String line = sc.nextLine();
-            if(line.equals("exit")){
-                break;
-            } else if(line.equals("print")){
-
-                list.stream()
-                .collect(Collectors.toCollection(ArrayDeque::new)) // or LinkedList
-                .descendingIterator()
-                .forEachRemaining(System.out::println);
-
-            } else if(line.equals("revert")&&list.size()>0){
-                list.remove(list.size()-1);
-            } else {
-                list.add(line);
+        for (int i = 0; i < parenthesesArray.length; i++) {
+            if (map.containsKey(parenthesesArray[i])) {
+                eCharacters.push(map.get(parenthesesArray[i]));
+                }
+            else {
+                try {
+                    if (eCharacters.pollFirst().equals(parenthesesArray[i]));
+                    else return false;
+                } catch (Exception e) {
+                    return false;
+                }
             }
         }
 
-    }
+        return true;
+        }
     
 
 }
