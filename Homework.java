@@ -1,77 +1,51 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-// 1 Дано четное число N (>0) и символы c1 и c2.
-// Написать метод, который вернет строку длины N, которая состоит из чередующихся символов c1 и c2, начиная с c1.
-
-// Пример. (n = 6, c1='a', c2='b') -> "ababab"
-// (n = 8, c1='x', c2='y') -> "xyxyxyxy"
-
-// static String buildString(int n, char c1, char c2) {
-//     // TODO: 28.03.2023 Домашнее задание!
-//     return null;
-// }
-
-// 2 Создать файл file.txt. Если файл уже создан, ничего делать не надо. Записать в файл слово TEXT 100 раз: TEXTTEXTTEXTTEXTTEXTTEXT...
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Homework {
 
     public static void main(String[] args) {
+        List<String> strings = new ArrayList<>();
+        strings.add("string");
+        strings.add("40");
+        strings.add("-5");
+        strings.add("my_string");
+        removeIntegers(strings);
+        System.out.println(strings); // [string, my_string]
         
 
-        System.out.println(buildString(6,'a','b'));       
-        System.out.println(buildString(8,'x','y'));
+        List<Integer> number = new ArrayList<>();
+        number.add(11);
+        number.add(45);
+        number.add(12);
+        number.add(32);
+        number.add(36);
 
-
-        printText(100,"TEXT");
-
-
-
+        removeEvenNumber(number);
+    }
+    
+    static void removeEvenNumber(List<Integer> numbers) {
+        // TODO: 31.03.2023 Удалить все четные элементы из списка
+        numbers.removeIf(num -> num%2==0);
+        System.out.println(numbers);
     }
 
 
-    static String buildString(int l, char c1, char c2) {
+    
+    static void removeIntegers(List<String> strings) {
+        // TODO: 31.03.2023 Удалить строки, которые являются целыми числами
 
-        String result = "";
-
-        for (int i = 0; i < l; i++) {
-            if(i%2==0){
-                result +=c1;
-            } else {
-                result +=c2;
-            }
-        }
-
-        return result;
+        strings.removeIf(num -> isNumber(num));
+        System.out.println(strings);
 
     }
 
-
-    public static void printText(int l, String text) {
-        
-
-        Path path = Path.of("file.txt");
-
+    public static boolean isNumber(String str) {
         try {
-            Files.createFile(path);
-            byte[] bytes = text.getBytes();
-            OutputStream os = Files.newOutputStream(path);
-            int i = 0;
-
-            while(i!=l){
-                os.write(bytes);
-                i++;
-            }
-        } catch (IOException e) {
-            
+            Integer.parseInt(str);
+        } catch (Exception e) {
+            return false;
         }
-
-
-
+        return true;
     }
-
-}
+    
+    }
