@@ -1,51 +1,61 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+// Реализовать приложение, которое:
+// Принимает от пользователя и запоминает строки
+// Если пользователь ввел print, то выводим все предыдущие строки в обратном порядке
+// Если введено revert, то удаляем последнюю введеную строку
+// Если введено exit, то завершаем программу
+
+//     java
+//     c++
+//     python
+//     c#
+//     print
+//     < [c#, python, c++, java]
+//     revert
+//     print
+//     < [python, c++, java]
+//     exit
+
+
 
 public class Homework {
 
     public static void main(String[] args) {
-        List<String> strings = new ArrayList<>();
-        strings.add("string");
-        strings.add("40");
-        strings.add("-5");
-        strings.add("my_string");
-        removeIntegers(strings);
-        System.out.println(strings); // [string, my_string]
-        
 
-        List<Integer> number = new ArrayList<>();
-        number.add(11);
-        number.add(45);
-        number.add(12);
-        number.add(32);
-        number.add(36);
-
-        removeEvenNumber(number);
-    }
-    
-    static void removeEvenNumber(List<Integer> numbers) {
-        // TODO: 31.03.2023 Удалить все четные элементы из списка
-        numbers.removeIf(num -> num%2==0);
-        System.out.println(numbers);
-    }
-
-
-    
-    static void removeIntegers(List<String> strings) {
-        // TODO: 31.03.2023 Удалить строки, которые являются целыми числами
-
-        strings.removeIf(num -> isNumber(num));
-        System.out.println(strings);
+        start();     
 
     }
 
-    public static boolean isNumber(String str) {
-        try {
-            Integer.parseInt(str);
-        } catch (Exception e) {
-            return false;
+    private static void start() {
+
+        List<String> list = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+
+
+        while (true) {     
+            String line = sc.nextLine();
+            if(line.equals("exit")){
+                break;
+            } else if(line.equals("print")){
+
+                list.stream()
+                .collect(Collectors.toCollection(ArrayDeque::new)) // or LinkedList
+                .descendingIterator()
+                .forEachRemaining(System.out::println);
+
+            } else if(line.equals("revert")&&list.size()>0){
+                list.remove(list.size()-1);
+            } else {
+                list.add(line);
+            }
         }
-        return true;
+
     }
     
-    }
+
+}
